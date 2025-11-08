@@ -1,5 +1,9 @@
 # Cadastro de Alunos - Projeto Full-Stack com Java e Spring Boot
 
+<p align="right">
+  <a href="README.md">Português</a> | <a href="README.en.md">English</a>
+</p>
+
 Um projeto didático desenvolvido para demonstrar os conceitos fundamentais de uma aplicação Full-Stack, conectando um backend construído com **Java** e **Spring Boot** a um frontend simples utilizando **HTML, CSS, e JavaScript com jQuery**.
 
 O sistema consiste em um formulário para cadastro de estudantes, que são listados em uma tabela na mesma página. É o projeto ideal para quem está começando a entender como o frontend e o backend "conversam" através de uma API REST.
