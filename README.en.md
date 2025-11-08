@@ -1,4 +1,5 @@
-# Student Registration - Full-Stack Project with Java and Spring Boot
+# Student Registration 
+## Full-Stack Project with Java and Spring Boot 🖥️
 
 An educational project developed to demonstrate the fundamental concepts of a Full-Stack application, connecting a backend built with **Java** and **Spring Boot** to a simple frontend using **HTML, CSS, and JavaScript with jQuery**.
 

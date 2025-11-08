@@ -1,4 +1,5 @@
-# Cadastro de Alunos - Projeto Full-Stack com Java e Spring Boot
+# Cadastro de Alunos
+## Projeto Full-Stack com Java e Spring Boot 🖥️
 
 <p align="right">
   <a href="README.md">Português</a> | <a href="README.en.md">English</a>
