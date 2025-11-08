@@ -52,11 +52,22 @@ function save() {
         period: getRadioValue(),
     }
 
-    addNewRow(student);
+    $.ajax({
+        url: "http://localhost:8080/students",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify(student), // transfere um obj JS para JSON
+        success: (student) => {
 
-    students.push(student);
+            addNewRow(student);
 
-    document.getElementById("formAluno").reset();
+            //Armazena o novo produto no array
+            students.push(student);
+
+            //Limpa os dados do forms
+            document.getElementById("formStudent").reset();
+        }
+    })
 
     //console.log(aluno);
 };
