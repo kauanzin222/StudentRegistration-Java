@@ -1,40 +1,64 @@
 $('#inputPhone').mask('(00) 00000-0000');
 
-var courses = [
-    { id: 1, name: "Java" },
-    { id: 2, name: "Python" },
-    { id: 3, name: "C#" },
+var courses = [];
+
+var periods = [
+    { id: 1, name: "Manhã" },
+    { id: 2, name: "Tarde" },
+    { id: 3, name: "Noturno" },
 ];
 
-var turnos = [
-    { id: "1", name: "Manhã" },
-    { id: "2", name: "Tarde" },
-    { id: "3", name: "Noturno" },
-];
+var students = [];
 
-var alunos = [];
+loadCourses();
+loadStudents();
+
+function loadCourses() {
+    $.ajax({
+        url: "http://localhost:8080/courses",
+        type: "GET",
+        async: false,
+        success: (response) => {
+
+            courses = response;
+
+            for (let c of courses) {
+                $("#selectCourse").append(`<option value=${c.id}>${c.name}</option>`)
+            }
+        }
+    })
+}
+
+function loadStudents() {
+    $.getJSON("http://localhost:8080/students", (response) => {
+        students = response;
+
+        for (let student of students) {
+            addNewRow(student);
+        }
+    })
+}
 
 function save() {
 
     /* Colocando os valores em um vetor */
-    var aluno =
+    var student =
     {
-        id: alunos.length + 1,
+        id: students.length + 1,
         name: document.getElementById("inputName").value,
         email: document.getElementById("inputEmail").value,
         phone: document.getElementById("inputPhone").value,
-        course: document.getElementById("selectCourse").value,
-        turno: getRadioValue(),
+        idCourse: document.getElementById("selectCourse").value,
+        period: getRadioValue(),
     }
 
+    addNewRow(student);
 
-    addNewRow(aluno);
-
-    alunos.push(aluno);
+    students.push(student);
 
     document.getElementById("formAluno").reset();
 
-    console.log(aluno);
+    //console.log(aluno);
 };
 
 function getRadioValue() {
@@ -47,58 +71,42 @@ function getRadioValue() {
 
 function addNewRow(aluno) {
     var table = document.getElementById("tableAlunos");
-
     var newRow = table.insertRow();
 
-    // insert id aluno
-    var idNode = document.createTextNode(aluno.id);
-    newRow.insertCell().appendChild(idNode);
+    // insert id aluno 
+    createAndAppendCell(newRow, aluno.id);
 
-    // insert name aluno
-    var nameNode = document.createTextNode(aluno.name);
-    newRow.insertCell().appendChild(nameNode);
+    // insert name aluno 
+    createAndAppendCell(newRow, aluno.name);
 
-    // insert email aluno
-    var emailNode = document.createTextNode(aluno.email);
+    // insert email aluno 
+    createAndAppendCell(newRow, aluno.email, "d-none d-md-table-cell");
 
-    var cell = newRow.insertCell();
-    cell.className = "d-none d-md-table-cell";
-
-    cell.appendChild(emailNode);
-    
-    // insert phone aluno
-    var phoneNode = document.createTextNode(aluno.phone);
-
-    cell = newRow.insertCell();
-    cell.className = "d-none d-md-table-cell";
-
-    cell.appendChild(phoneNode);
+    // insert phone aluno 
+    createAndAppendCell(newRow, aluno.phone, "d-none d-md-table-cell");
 
     // insert course aluno 
     for (let course of courses) {
-        if (course.id == aluno.course) {
-            var courseNode = document.createTextNode(course.name);
+        if (course.id == aluno.idCourse) {
+            createAndAppendCell(newRow, course.name);
             break;
         }
     }
 
-    newRow.insertCell().appendChild(courseNode);
-
-
-    // insert shift aluno 
-    for (let turno of turnos) {
-        console.log(
-            "Comparando:", turno.id, "(tipo:", typeof turno.id, ")",
-            "com:", aluno.turno, "(tipo:", typeof aluno.turno, ")"
-        );
-        if (turno.id === aluno.turno) {
-            var turnoNode = document.createTextNode(turno.name);
+    // insert period aluno
+    for (let p of periods) {
+        if (p.id === aluno.period) {
+            createAndAppendCell(newRow, p.name, "d-none d-md-table-cell");
             break;
         }
     }
+}
 
-    cell = newRow.insertCell();
-    cell.className = "d-none d-md-table-cell";
 
-    cell.appendChild(turnoNode);
+function createAndAppendCell(newRow, data, className) {
+    const cell = newRow.insertCell();
+    cell.appendChild(document.createTextNode(data));
+
+    if (className)
+        cell.className = className;
 }
